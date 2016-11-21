@@ -339,7 +339,6 @@ var RefreshLoadMoreListView = React.createClass({
     }
   },
 
-  //外部需要调用
   hideHeader() {
     this.setState({ status: STATUS_NONE });
     this.resetListView();
@@ -349,7 +348,6 @@ var RefreshLoadMoreListView = React.createClass({
     }, 10);
   },
 
-  //外部需要调用
   hideFooter() {
     this.setState({ status: STATUS_NONE });
     this.resetListView(false);
