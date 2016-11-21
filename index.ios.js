@@ -256,12 +256,10 @@ var RefreshLoadMoreListView = React.createClass({
     }
   },
 
-  //外部需要调用
   hideHeader() {
     this.setState({ status: STATUS_NONE });
   },
 
-  //外部需要调用
   hideFooter() {
     this.setState({ status: STATUS_NONE });
   },
