@@ -1,0 +1,26 @@
+{
+  "name": "react-native-rmlistview",
+  "version": "1.0.0",
+  "description": "based on react-native-refresh-infinite-listview, working on android",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rabholly/react-native-rmlistview.git"
+  },
+  "keywords": [
+    "listview",
+    "refresh",
+    "loadmore",
+    "ios",
+    "android"
+  ],
+  "author": "rabholly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rabholly/react-native-rmlistview/issues"
+  },
+  "homepage": "https://github.com/rabholly/react-native-rmlistview#readme"
+}
