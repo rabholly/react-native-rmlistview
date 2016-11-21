@@ -180,22 +180,6 @@ var RefreshLoadMoreListView = React.createClass({
     };
   },
 
-  componentWillReceiveProps(nextProps) {
-    //当数据源修改时，判断是否为刷新和加载操作完成
-    if (this.props.dataSource !== nextProps.dataSource) {
-      switch (this.state.status) {
-      case STATUS_REFRESHING:
-        this.hideHeader();
-        break;
-      case STATUS_INFINITING:
-        this.hideFooter();
-        break;
-      default:
-        break;
-      }
-    }
-  },
-
   renderRow(rowData, sectionID, rowId) {
     if (this.dataSource) {
       return this.props.renderEmptyRow();
