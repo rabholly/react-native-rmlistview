@@ -230,7 +230,7 @@ var RefreshLoadMoreListView = React.createClass({
     }
     return (
       <View>
-        <View style={{height: this.state.paddingHeight, backgroundColor: 'transparent'}}/>
+        <View style={{height: Math.max(this.listViewHeight + this.props.footerHeight - this.contentHeight, 0), backgroundColor: 'transparent'}}/>
         {this.renderFooterContent()}
       </View>
     );
