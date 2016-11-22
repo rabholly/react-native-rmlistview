@@ -189,7 +189,7 @@ var RefreshLoadMoreListView = React.createClass({
   },
 
   componentDidMount() {
-    this.resetListView();
+    this.resetListView(true, 200);
   },
 
   renderRow(rowData, sectionID, rowId) {
@@ -199,7 +199,12 @@ var RefreshLoadMoreListView = React.createClass({
       if (rowId == this.props.dataSource.getRowCount() - 1) {
         return (
           <View onLayout={(e) => {
-            this.contentHeight = e.nativeEvent.layout.y + e.nativeEvent.layout.height;}}>
+            let contentHeight = e.nativeEvent.layout.y + e.nativeEvent.layout.height;
+            if (this.lastContentHeight != contentHeight) {
+              this.setState({contentHeight});
+              this.lastContentHeight = contentHeight;
+            }
+          }}>
             {this.props.renderRow(rowData, sectionID, rowId)}
           </View>);
       } else {
@@ -230,7 +235,7 @@ var RefreshLoadMoreListView = React.createClass({
     }
     return (
       <View>
-        <View style={{height: Math.max(this.listViewHeight + this.props.footerHeight - this.contentHeight, 0), backgroundColor: 'transparent'}}/>
+        <View style={{height: Math.max(this.listViewHeight + this.props.footerHeight - this.state.contentHeight, 0), backgroundColor: 'transparent'}}/>
         {this.renderFooterContent()}
       </View>
     );
@@ -361,21 +366,21 @@ var RefreshLoadMoreListView = React.createClass({
 
   hideHeader() {
     this.setState({ status: STATUS_NONE });
-    this.resetListView();
+    this.resetListView(true, 200);
   },
 
   hideFooter() {
     this.setState({ status: STATUS_NONE });
-    if (this.contentHeight < this.listViewHeight + this.props.footerHeight) {
+    if (this.state.contentHeight < this.listViewHeight + this.props.footerHeight) {
       this.resetListView(false);
     }
   },
 
-  resetListView(top = true) {
+  resetListView(top = true, time = 1) {
     if (top && this.refreshAble) {
-      this.refs.listView && setTimeout(() => this.refs.listView.scrollTo({y: this.props.footerHeight, aimated: true}), 1);
+      this.refs.listView && setTimeout(() => this.refs.listView.scrollTo({y: this.props.footerHeight, aimated: true}), time);
     } else if (!top && this.infiniteAble) {
-      this.refs.listView && setTimeout(() => this.refs.listView.scrollTo({y: this.footerScrollHeight - this.props.footerHeight, aimated: true}), 1);
+      this.refs.listView && setTimeout(() => this.refs.listView.scrollTo({y: this.footerScrollHeight - this.props.footerHeight, aimated: true}), time);
     }
   },
 
