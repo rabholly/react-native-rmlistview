@@ -303,7 +303,9 @@ var RefreshLoadMoreListView = React.createClass({
       this.setState({ status: STATUS_REFRESH_IDLE });
       this.resetListView();
     } else if (y >= this.props.footerHeight && y < this.footerScrollHeight - this.props.footerHeight) {
-      this.setState({ status: STATUS_NONE });
+      if (!this.props.loadedAllData()) {
+        this.setState({ status: STATUS_NONE });
+      }
     } else if (y >= this.footerScrollHeight - this.props.footerHeight) {
       if (this.props.loadedAllData()) {
         this.setState({ status: STATUS_INFINITE_LOADED_ALL });
@@ -345,16 +347,17 @@ var RefreshLoadMoreListView = React.createClass({
     setTimeout(() => {
       this.setState({paddingHeight: Math.max(this.listViewHeight + this.props.footerHeight - this.contentHeight, 0)});
       this.resetListView();
-    }, 10);
+    }, 200);
   },
 
   hideFooter() {
     this.setState({ status: STATUS_NONE });
-    this.resetListView(false);
+    if (this.contentHeight < this.listViewHeight + this.props.footerHeight) {
+      this.resetListView(false);
+    }
     setTimeout(() => {
       this.setState({paddingHeight: Math.max(this.listViewHeight + this.props.footerHeight - this.contentHeight, 0)});
-      this.resetListView(false);
-    }, 10);
+    }, 200);
   },
 
   resetListView(top = true) {
@@ -379,7 +382,10 @@ var RefreshLoadMoreListView = React.createClass({
     this.props.onLayout && this.props.onLayout(e);
     this.listViewHeight = e.nativeEvent.layout.height;
     if (this.contentHeight && this.listViewHeight && !this.paddOnce) {
-      this.setState({paddingHeight: Math.max(this.listViewHeight + this.props.footerHeight - this.contentHeight, 0)});
+      setTimeout(() => {
+        this.setState({paddingHeight: Math.max(this.listViewHeight + this.props.footerHeight - this.contentHeight, 0)});
+        this.resetListView(true);
+      }, 200);
       this.paddOnce = true;
     }
   },
